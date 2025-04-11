@@ -1,0 +1,136 @@
+<!-- forecast-table.component.html -->
+<div class="forecast-table-wrapper">
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-controls">
+      <!-- FILTERS SECTION -->
+      <div class="filters-row">
+        <div class="filter-group">
+          <label>Planner</label>
+          <select>
+            <option disabled selected>Planner</option>
+            <option *ngFor="let planner of planners">{{ planner }}</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Brand</label>
+          <select>
+            <option disabled selected>Brand</option>
+            <option *ngFor="let brand of brands">{{ brand }}</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>AZ Local Code</label>
+          <select>
+            <option disabled selected>AZ Local Code</option>
+            <option *ngFor="let local of localCodes">{{ local }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>AZ Global Code</label>
+          <select>
+            <option disabled selected>AZ Global Code</option>
+            <option *ngFor="let global of globalCodes">{{ global }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Material Type</label>
+          <select>
+            <option disabled selected>Material Type</option>
+            <option *ngFor="let type of materialTypes">{{ type }}</option>
+          </select>
+        </div>
+
+        <button class="download-btn" (click)="downloadExcel()">
+          <i class="fas fa-file-excel"></i> Export data
+        </button>
+      </div>
+
+      <!-- BUTTONS SECTION -->
+      <div class="action-buttons">
+        <button class="add-btn" (click)="showAddProductModal = true">
+          <i class="fas fa-box-open"></i> Add Product
+        </button>
+        <!-- <button class="add-btn" (click)="addForecast()" (click)="showAddForecastModal = true">
+          <i class="fas fa-chart-line"></i> Add Forecast
+        </button> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FORECAST TABLE -->
+  <table class="forecast-table">
+    <thead>
+      <tr>
+        <th class="forecast-header">Forecast Data</th>
+        <th colspan="12" class="year-switcher-header">
+          <div class="year-switcher">
+            <button
+              *ngFor="let year of forecastYears"
+              (click)="selectedYear = year"
+              [class.selected]="selectedYear === year"
+            >
+              {{ year }}
+            </button>
+          </div>
+        </th>
+        <th>Comments</th>
+        <th>Mark as Completed</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th *ngFor="let month of months">{{ month }} {{ selectedYear }}</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td *ngFor="let month of months">
+          <input
+            type="number"
+            class="readonly-input"
+            placeholder="APO"
+            [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.apo_value || ''"
+            readonly
+          />
+          <input
+            type="number"
+            class="readonly-input"
+            placeholder="Current"
+            [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.current_value || ''"
+            readonly
+          />
+        </td>
+        <td><a href="#">Add Comment</a></td>
+        <td><input type="checkbox" /></td>
+        <td>
+          <button class="delete-btn" (click)="deleteProduct(product.id)">
+            <i class="fas fa-trash-alt"></i> Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-backdrop" *ngIf="showAddProductModal">
+  <div class="modal">
+    <h2>Add New Product</h2>
+    <form (ngSubmit)="submitNewProduct()">
+      <label>Name: <input type="text" [(ngModel)]="newProduct.name" name="name" /></label>
+      <label>Planner: <input type="text" [(ngModel)]="newProduct.planner" name="planner" /></label>
+      <label>Brand: <input type="text" [(ngModel)]="newProduct.brand" name="brand" /></label>
+      <label>AZ Local Code: <input type="text" [(ngModel)]="newProduct.az_local_code" name="az_local_code" /></label>
+      <label>AZ Global Code: <input type="text" [(ngModel)]="newProduct.az_global_code" name="az_global_code" /></label>
+      <label>Material Type: <input type="text" [(ngModel)]="newProduct.material_type" name="material_type" /></label>
+
+      <div class="modal-buttons">
+        <button type="submit">Save</button>
+        <button type="button" (click)="showAddProductModal = false">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

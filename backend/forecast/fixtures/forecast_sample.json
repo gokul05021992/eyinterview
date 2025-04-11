@@ -1,0 +1,129 @@
+[
+    {
+      "model": "app.product",
+      "pk": 1,
+      "fields": {
+        "name": "Product 1",
+        "planner": "Planner A",
+        "brand": "Brand X",
+        "az_local_code": "AZ001",
+        "az_global_code": "G001",
+        "material_type": "Tablet"
+      }
+    },
+    {
+      "model": "app.product",
+      "pk": 2,
+      "fields": {
+        "name": "Product 2",
+        "planner": "Planner B",
+        "brand": "Brand Y",
+        "az_local_code": "AZ002",
+        "az_global_code": "G002",
+        "material_type": "Capsule"
+      }
+    },
+    {
+      "model": "app.product",
+      "pk": 3,
+      "fields": {
+        "name": "Product 3",
+        "planner": "Planner A",
+        "brand": "Brand Z",
+        "az_local_code": "AZ003",
+        "az_global_code": "G003",
+        "material_type": "Injection"
+      }
+    },
+    {
+      "model": "app.product",
+      "pk": 4,
+      "fields": {
+        "name": "Product 4",
+        "planner": "Planner C",
+        "brand": "Brand X",
+        "az_local_code": "AZ004",
+        "az_global_code": "G004",
+        "material_type": "Syrup"
+      }
+    },
+    {
+      "model": "app.forecastentry",
+      "pk": 1,
+      "fields": {
+        "product": 1,
+        "year": 2025,
+        "month": 5,
+        "apo_value": 120,
+        "current_value": 100,
+        "comment": "Initial forecast",
+        "is_completed": false
+      }
+    },
+    {
+      "model": "app.forecastentry",
+      "pk": 2,
+      "fields": {
+        "product": 2,
+        "year": 2025,
+        "month": 6,
+        "apo_value": 80,
+        "current_value": 95,
+        "comment": "Increased demand",
+        "is_completed": true
+      }
+    },
+    {
+      "model": "app.forecastentry",
+      "pk": 3,
+      "fields": {
+        "product": 3,
+        "year": 2024,
+        "month": 12,
+        "apo_value": 200,
+        "current_value": 180,
+        "comment": "",
+        "is_completed": false
+      }
+    },
+    {
+      "model": "app.forecastentry",
+      "pk": 4,
+      "fields": {
+        "product": 4,
+        "year": 2025,
+        "month": 4,
+        "apo_value": 150,
+        "current_value": 155,
+        "comment": "Close to target",
+        "is_completed": true
+      }
+    },
+    {
+      "model": "app.forecastentry",
+      "pk": 5,
+      "fields": {
+        "product": 1,
+        "year": 2025,
+        "month": 6,
+        "apo_value": 130,
+        "current_value": 120,
+        "comment": "Trend holding",
+        "is_completed": false
+      }
+    },
+    {
+      "model": "app.forecastentry",
+      "pk": 6,
+      "fields": {
+        "product": 2,
+        "year": 2024,
+        "month": 11,
+        "apo_value": 70,
+        "current_value": 90,
+        "comment": "Unexpected spike",
+        "is_completed": true
+      }
+    }
+  ]
+  
