@@ -9,10 +9,10 @@ export interface Forecast {
   brand: string;
   year: number;
   month: number;
-  apo: number;
-  current: number;
+  apo_value: number;
+  current_value: number;
   comment?: string;
-  completed: boolean;
+  is_completed: boolean;
 }
 
 @Injectable({

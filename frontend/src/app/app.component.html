@@ -53,9 +53,9 @@
         <button class="add-btn" (click)="showAddProductModal = true">
           <i class="fas fa-box-open"></i> Add Product
         </button>
-        <!-- <button class="add-btn" (click)="addForecast()" (click)="showAddForecastModal = true">
+        <button class="add-btn" (click)="showAddForecastModal = true">
           <i class="fas fa-chart-line"></i> Add Forecast
-        </button> -->
+        </button>
       </div>
     </div>
   </div>
@@ -93,14 +93,14 @@
           <input
             type="number"
             class="readonly-input"
-            placeholder="APO"
+            placeholder="0"
             [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.apo_value || ''"
             readonly
           />
           <input
             type="number"
             class="readonly-input"
-            placeholder="Current"
+            placeholder="0"
             [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.current_value || ''"
             readonly
           />
@@ -110,6 +110,9 @@
         <td>
           <button class="delete-btn" (click)="deleteProduct(product.id)">
             <i class="fas fa-trash-alt"></i> Delete
+          </button>
+          <button class="edit-btn" (click)="openEditForecastModal(product)">
+            <i class="fas fa-edit"></i> Edit
           </button>
         </td>
       </tr>
@@ -130,6 +133,46 @@
       <div class="modal-buttons">
         <button type="submit">Save</button>
         <button type="button" (click)="showAddProductModal = false">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-backdrop" *ngIf="showAddForecastModal">
+  <div class="modal">
+    <h2>Add Forecast</h2>
+    <form (ngSubmit)="submitNewForecast()">
+      <label>Product:
+        <select [(ngModel)]="newForecast.product" name="product" required>
+          <option value="" disabled selected>Select Product</option>
+          <option *ngFor="let p of products" [value]="p.id">{{ p.name }}</option>
+        </select>
+      </label>
+      <!-- <label>Planner:
+        <input type="text" [(ngModel)]="newForecast.planner" name="planner" />
+      </label>
+      <label>Brand:
+        <input type="text" [(ngModel)]="newForecast.brand" name="brand" />
+      </label> -->
+      <label>Year:
+        <select [(ngModel)]="newForecast.year" name="year">
+          <option *ngFor="let y of forecastYears" [value]="y">{{ y }}</option>
+        </select>
+      </label>
+      <label>Month:
+        <select [(ngModel)]="newForecast.month" name="month">
+          <option *ngFor="let m of monthNames; let i = index" [value]="i + 1">{{ m }}</option>
+        </select>
+      </label>
+      <label>APO: <input type="number" [(ngModel)]="newForecast.apo_value" name="apo" /></label>
+      <label>Current: <input type="number" [(ngModel)]="newForecast.current_value" name="current" /></label>
+      <label>Comment: <input type="text" [(ngModel)]="newForecast.comment" name="comment" /></label>
+      <label>Completed:
+        <input type="checkbox" [(ngModel)]="newForecast.is_completed" name="completed" />
+      </label>
+
+      <div class="modal-buttons">
+        <button type="submit">Save</button>
+        <button type="button" (click)="showAddForecastModal = false">Cancel</button>
       </div>
     </form>
   </div>

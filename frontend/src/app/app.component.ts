@@ -20,12 +20,15 @@ export class AppComponent implements OnInit {
   forecastYears: number[] = [2020,2021,2022,2023,2024,2025, 2026, 2027,2028];
   selectedYear: number = 2025;
   showAddProductModal = false;
+  isEditingForecast: boolean = false;  
+  showAddForecastModal = false;
   forecastLookup: { [key: string]: any } = {};
   monthNames: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   months: string[] = [
     'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     'Jan', 'Feb', 'Mar', 'Apr'
   ];
+  selectedMonth = this.months[0];
   newProduct: any = {
     name: '',
     planner: '',
@@ -33,18 +36,18 @@ export class AppComponent implements OnInit {
     az_local_code: '',
     az_global_code: '',
     material_type: ''
-  };
-  showAddForecastModal = false;
+  };  
   newForecast = {
-    product: '',
+    id: undefined, 
+    product: 0,
     planner: '',
     brand: '',
     year: this.selectedYear,
-    month: null,
-    apo: 0,
-    current: 0,
+    month: 0,
+    apo_value: 0,
+    current_value: 0,
     comment: '',
-    completed: false
+    is_completed: false
   };
 
   planners: string[] = ['Alice', 'Bob'];
@@ -121,6 +124,35 @@ export class AppComponent implements OnInit {
       };
     });
   }
+
+  submitNewForecast() {
+    if (this.isEditingForecast && this.newForecast.id) {
+      // PUT request for updating forecast using ID
+      this.forecastService.updateForecast(this.newForecast.id, this.newForecast).subscribe(() => {
+        this.showAddForecastModal = false;
+        this.isEditingForecast = false;
+        this.loadProducts(); // Refresh data
+      });
+    } else {
+      // POST request for creating forecast
+      this.forecastService.createForecast(this.newForecast).subscribe(() => {
+        this.loadProducts(); // Reload products and forecasts
+        this.showAddForecastModal = false;
+        this.newForecast = {
+          id:undefined,
+          product: 0,
+          planner: '',
+          brand: '',
+          year: this.selectedYear,
+          month: 0,
+          apo_value: 0,
+          current_value: 0,
+          comment: '',
+          is_completed: false
+        };
+      });
+    }
+  }
   
 
   downloadExcel() {
@@ -147,4 +179,25 @@ export class AppComponent implements OnInit {
       });
     }
   }
+
+  openEditForecastModal(product: any) {
+    const month = this.selectedMonth || this.months[0]; // Match abbreviation
+    const forecastKey = `${product.id}-${this.selectedYear}-${month}`;
+  
+    console.log('Trying to edit forecast for key:', forecastKey);
+    console.log('All forecast keys:', Object.keys(this.forecastLookup));
+  
+    const forecast = this.forecastLookup[forecastKey];
+  
+    if (forecast) {
+      this.newForecast = { ...forecast,id: forecast.id  };
+      this.isEditingForecast = true;
+      this.showAddForecastModal = true;
+    } else {
+      alert('No forecast data available for selected month.');
+      this.showAddForecastModal = false;
+    }
+  }
+  
+  
 }
