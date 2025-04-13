@@ -4,8 +4,7 @@ import { ForecastService} from './app/services/forecast.service';
 import { ProductService } from './app/services/product.service';
 import { saveAs } from 'file-saver';
 import { FormsModule } from '@angular/forms'; 
-
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -64,7 +63,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private forecastService: ForecastService,
-    private productService: ProductService
+    private productService: ProductService, private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -114,6 +113,11 @@ export class AppComponent implements OnInit {
     this.productService.createProduct(this.newProduct).subscribe(() => {
       this.loadProducts();
       this.showAddProductModal = false;
+      this.snackBar.open('Product created successfully!', 'Close', {
+        duration: 3000, // time in ms
+        verticalPosition: 'top', // or 'bottom'
+        horizontalPosition: 'right', // or 'left', 'center'
+      });
       this.newProduct = {
         name: '',
         planner: '',
@@ -131,6 +135,11 @@ export class AppComponent implements OnInit {
       this.forecastService.updateForecast(this.newForecast.id, this.newForecast).subscribe(() => {
         this.showAddForecastModal = false;
         this.isEditingForecast = false;
+        this.snackBar.open('forecast edited successfully!', 'Close', {
+          duration: 3000, // time in ms
+          verticalPosition: 'top', // or 'bottom'
+          horizontalPosition: 'right', // or 'left', 'center'
+        });
         this.loadProducts(); // Refresh data
       });
     } else {
@@ -138,6 +147,11 @@ export class AppComponent implements OnInit {
       this.forecastService.createForecast(this.newForecast).subscribe(() => {
         this.loadProducts(); // Reload products and forecasts
         this.showAddForecastModal = false;
+        this.snackBar.open('forecast created successfully!', 'Close', {
+          duration: 3000, // time in ms
+          verticalPosition: 'top', // or 'bottom'
+          horizontalPosition: 'right', // or 'left', 'center'
+        });
         this.newForecast = {
           id:undefined,
           product: 0,
@@ -168,20 +182,40 @@ export class AppComponent implements OnInit {
   }
 
   deleteProduct(productId: number): void {
-    if (confirm('Are you sure you want to delete this product?')) {
+    const snackBarRef = this.snackBar.open('Are you sure you want to delete this product?', 'Yes', {
+      duration: 5000,
+      verticalPosition: 'top', // Will need adjustment in CSS for center alignment
+      horizontalPosition: 'center', // This aligns snackbar in the center horizontally
+      panelClass: ['snackbar-warning']
+    });
+  
+    snackBarRef.onAction().subscribe(() => {
       this.productService.deleteProduct(productId).subscribe({
         next: () => {
           this.products = this.products.filter(p => p.id !== productId);
+          this.snackBar.open('Product deleted successfully!', 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-success']
+          });
         },
         error: err => {
           console.error('Error deleting product:', err);
+          this.snackBar.open('Failed to delete product.', 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-error']
+          });
         }
       });
-    }
+    });
   }
+  
 
   openEditForecastModal(product: any) {
-    const month = this.selectedMonth || this.months[0]; // Match abbreviation
+    const month = this.selectedMonth || this.months[0]; 
     const forecastKey = `${product.id}-${this.selectedYear}-${month}`;
   
     console.log('Trying to edit forecast for key:', forecastKey);
@@ -194,7 +228,12 @@ export class AppComponent implements OnInit {
       this.isEditingForecast = true;
       this.showAddForecastModal = true;
     } else {
-      alert('No forecast data available for selected month.');
+      this.snackBar.open('No forecast data available for selected month.', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+        panelClass: ['snackbar-error'] 
+      });
       this.showAddForecastModal = false;
     }
   }

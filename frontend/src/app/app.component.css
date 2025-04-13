@@ -254,3 +254,24 @@
   gap: 16px;
   flex-wrap: wrap;
 }
+
+.snackbar-success {
+  background-color: #43a047;
+  color: white;
+}
+
+.snackbar-error {
+  background-color: #e53935;
+  color: white;
+}
+
+.snackbar-warning {
+  background-color: #ffa000; /* amber */
+  color: black;
+}
+
+::ng-deep .mat-snack-bar-container {
+  top: 50% !important; /* Adjusts snackbar to the middle vertically */
+  transform: translateY(-50%); /* Centers it perfectly */
+}
+
