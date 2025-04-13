@@ -42,10 +42,15 @@
             <option *ngFor="let type of materialTypes">{{ type }}</option>
           </select>
         </div>
-
-        <button class="download-btn" (click)="downloadExcel()">
-          <i class="fas fa-file-excel"></i> Export data
-        </button>
+        <div class="top-right-actions">
+          <div class="product-count-label">
+            <span class="label-title">Products update</span>
+            <span class="label-count">{{ products.length }}</span>
+          </div>
+          <button class="download-btn" (click)="downloadExcel()">
+            <i class="fas fa-file-excel"></i> Export Data
+          </button>
+        </div>        
       </div>
 
       <!-- BUTTONS SECTION -->
@@ -129,7 +134,6 @@
       <label>AZ Local Code: <input type="text" [(ngModel)]="newProduct.az_local_code" name="az_local_code" /></label>
       <label>AZ Global Code: <input type="text" [(ngModel)]="newProduct.az_global_code" name="az_global_code" /></label>
       <label>Material Type: <input type="text" [(ngModel)]="newProduct.material_type" name="material_type" /></label>
-
       <div class="modal-buttons">
         <button type="submit">Save</button>
         <button type="button" (click)="showAddProductModal = false">Cancel</button>

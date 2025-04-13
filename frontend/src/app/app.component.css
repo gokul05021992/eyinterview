@@ -193,3 +193,64 @@
 .modal-buttons button[type="button"] {
   background-color: #ccc;
 }
+
+
+.product-export-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.product-count-label {
+  background-color: #e0f2fe;
+  color: #0f172a;
+  border-radius: 16px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.label-title {
+  font-size: 14px;
+  color: #2563eb;
+}
+
+.label-count {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 4px;
+  color: #111827;
+}
+
+.download-btn {
+  background-color: #22c55e;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #16a34a;
+}
+
+.top-right-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
