@@ -174,6 +174,11 @@ export class AppComponent implements OnInit {
       next: (blob) => {
         const filename = 'forecast_export.xlsx';
         saveAs(blob, filename);
+        this.snackBar.open(' downloaded successfully!', 'Close', {
+          duration: 3000, // time in ms
+          verticalPosition: 'top', // or 'bottom'
+          horizontalPosition: 'right', // or 'left', 'center'
+        });
       },
       error: (err) => {
         console.error('Error downloading Excel file', err);
