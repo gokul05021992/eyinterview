@@ -131,26 +131,24 @@ export class AppComponent implements OnInit {
 
   submitNewForecast() {
     if (this.isEditingForecast && this.newForecast.id) {
-      // PUT request for updating forecast using ID
       this.forecastService.updateForecast(this.newForecast.id, this.newForecast).subscribe(() => {
         this.showAddForecastModal = false;
         this.isEditingForecast = false;
         this.snackBar.open('forecast edited successfully!', 'Close', {
-          duration: 3000, // time in ms
-          verticalPosition: 'top', // or 'bottom'
-          horizontalPosition: 'right', // or 'left', 'center'
+          duration: 3000, 
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
         });
-        this.loadProducts(); // Refresh data
+        this.loadProducts(); 
       });
     } else {
-      // POST request for creating forecast
       this.forecastService.createForecast(this.newForecast).subscribe(() => {
-        this.loadProducts(); // Reload products and forecasts
+        this.loadProducts(); 
         this.showAddForecastModal = false;
         this.snackBar.open('forecast created successfully!', 'Close', {
-          duration: 3000, // time in ms
-          verticalPosition: 'top', // or 'bottom'
-          horizontalPosition: 'right', // or 'left', 'center'
+          duration: 3000,
+          verticalPosition: 'top', 
+          horizontalPosition: 'right',
         });
         this.newForecast = {
           id:undefined,

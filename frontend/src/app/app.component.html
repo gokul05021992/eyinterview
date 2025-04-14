@@ -1,9 +1,6 @@
-<!-- forecast-table.component.html -->
 <div class="forecast-table-wrapper">
-  <!-- TOP BAR -->
   <div class="top-bar">
     <div class="top-controls">
-      <!-- FILTERS SECTION -->
       <div class="filters-row">
         <div class="filter-group">
           <label>Planner</label>
@@ -42,6 +39,7 @@
             <option *ngFor="let type of materialTypes">{{ type }}</option>
           </select>
         </div>
+
         <div class="top-right-actions">
           <div class="product-count-label">
             <span class="label-title">Products update</span>
@@ -50,7 +48,7 @@
           <button class="download-btn" (click)="downloadExcel()">
             <i class="fas fa-file-excel"></i> download excel
           </button>
-        </div>        
+        </div>
       </div>
 
       <!-- BUTTONS SECTION -->
@@ -69,7 +67,8 @@
   <table class="forecast-table">
     <thead>
       <tr>
-        <th class="forecast-header">Forecast Data</th>
+        <th rowspan="2" class="forecast-header">Forecast Data</th>
+        <th rowspan="2">Type</th>
         <th colspan="12" class="year-switcher-header">
           <div class="year-switcher">
             <button
@@ -81,46 +80,52 @@
             </button>
           </div>
         </th>
-        <th>Comments</th>
-        <th>Mark as Completed</th>
+        <th rowspan="2">Comments</th>
+        <th rowspan="2">Mark as Completed</th>
+        <th rowspan="2">Actions</th>
       </tr>
       <tr>
-        <th></th>
         <th *ngFor="let month of months">{{ month }} {{ selectedYear }}</th>
-        <th></th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of products">
-        <td>{{ product.name }}</td>
-        <td *ngFor="let month of months">
-          <input
-            type="number"
-            class="readonly-input"
-            placeholder="0"
-            [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.apo_value || ''"
-            readonly
-          />
-          <input
-            type="number"
-            class="readonly-input"
-            placeholder="0"
-            [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.current_value || ''"
-            readonly
-          />
-        </td>
-        <td><a href="#">Add Comment</a></td>
-        <td><input type="checkbox" /></td>
-        <td>
-          <button class="delete-btn" (click)="deleteProduct(product.id)">
-            <i class="fas fa-trash-alt"></i> Delete
-          </button>
-          <button class="edit-btn" (click)="openEditForecastModal(product)">
-            <i class="fas fa-edit"></i> Edit
-          </button>
-        </td>
-      </tr>
+      <ng-container *ngFor="let product of products">
+        <tr>
+          <td rowspan="2">{{ product.name }}</td>
+          <td>APO</td>
+          <td *ngFor="let month of months">
+            <input
+              type="number"
+              class="readonly-input"
+              placeholder="0"
+              [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.apo_value || ''"
+              readonly
+            />
+          </td>
+          <td rowspan="2"><a href="#">Add Comment</a></td>
+          <td rowspan="2"><input type="checkbox" /></td>
+          <td rowspan="2">
+            <button class="delete-btn" (click)="deleteProduct(product.id)">
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+            <button class="edit-btn" (click)="openEditForecastModal(product)">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>current</td>
+          <td *ngFor="let month of months">
+            <input
+              type="number"
+              class="readonly-input"
+              placeholder="0"
+              [value]="forecastLookup[product.id + '-' + selectedYear + '-' + month]?.current_value || ''"
+              readonly
+            />
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>
@@ -151,12 +156,6 @@
           <option *ngFor="let p of products" [value]="p.id">{{ p.name }}</option>
         </select>
       </label>
-      <!-- <label>Planner:
-        <input type="text" [(ngModel)]="newForecast.planner" name="planner" />
-      </label>
-      <label>Brand:
-        <input type="text" [(ngModel)]="newForecast.brand" name="brand" />
-      </label> -->
       <label>Year:
         <select [(ngModel)]="newForecast.year" name="year">
           <option *ngFor="let y of forecastYears" [value]="y">{{ y }}</option>
@@ -173,7 +172,6 @@
       <label>Completed:
         <input type="checkbox" [(ngModel)]="newForecast.is_completed" name="completed" />
       </label>
-
       <div class="modal-buttons">
         <button type="submit">Save</button>
         <button type="button" (click)="showAddForecastModal = false">Cancel</button>
