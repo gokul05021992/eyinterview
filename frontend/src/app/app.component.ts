@@ -233,7 +233,7 @@ export class AppComponent implements OnInit {
       this.isEditingForecast = true;
       this.showAddForecastModal = true;
     } else {
-      this.snackBar.open('No forecast data available for selected month.', 'Close', {
+      this.snackBar.open('Edit option is only allowed for may or the data is avaialble for the month', 'Close', {
         duration: 3000,
         verticalPosition: 'top',
         horizontalPosition: 'right',
